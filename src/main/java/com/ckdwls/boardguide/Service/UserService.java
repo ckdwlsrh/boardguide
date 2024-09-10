@@ -22,11 +22,15 @@ public class UserService {
 
     public User Signup(final User user) {
         final String userId = user.getUserId();
+        final String nickname = user.getNickname();
         if(user == null || userId == null) {
             throw new RuntimeException("Invalid arguments");
         }
         if(userRepository.existsByUserId(userId)) {
             throw new RuntimeException("UserId already exists");
+        }
+        if(userRepository.existsByNickname(nickname)) {
+            throw new RuntimeException("Nickname already exists");
         }
 
         return userRepository.save(user);

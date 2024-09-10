@@ -56,22 +56,20 @@ public class UserController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ResponseEntity<?> singup(@RequestBody SignupRequest param) {
         try {
-            //패스워드 확인
-            if(param.getPassword().equals(param.getPasswordCheck())) {
-                throw new Exception("Password is not correct.");
-            }
             //엔티티로 바꿔서 등록
             User user = User.builder()
                             .userId(param.getUserId())
                             .password(passwordEncoder.encode(param.getPassword()))
-                            .name(param.getName())
+                            .nickname(param.getNickname())
+                            .email(param.getEmail())
                             .build();
 
             User registeduser = userService.Signup(user);
             //응답DTO작성
             SignupRequest responseSignupRequest = SignupRequest.builder()
                                                                 .userId(registeduser.getUserId())
-                                                                .name(registeduser.getName())
+                                                                .nickname(registeduser.getNickname())
+                                                                .email(registeduser.getEmail())
                                                                 .build();
 
             return ResponseEntity.ok().body(responseSignupRequest);

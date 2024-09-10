@@ -11,14 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignupRequest {
-    @NotBlank(message = "ID가 올바르지 않습니다.")
     private String userId;
 
-    @NotBlank(message = "비밀번호가 올바르지 않습니다.")
     private String password;
-    private String passwordCheck;
 
-    @NotBlank(message = "이름이 올바르지 않습니다.")
-    private String name;
+    private String nickname;
+
+    private String email;
 
 }
