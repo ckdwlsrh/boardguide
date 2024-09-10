@@ -10,15 +10,33 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class TokenProvider {
+
     @Value("${jwt.secret}")
-    private String secretKey;
+    private String secretKeyPlain;
+
+    private String keyBase64Encoded;
+    
+
     @Value("${jwt.token-validity-in-seconds}")
     private long expirationS;
 
-    private final SecretKey secretKey2 = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
+    private SecretKey secretKey;
+    
+    @PostConstruct
+    public void init() {
+        // secretKeyPlain이 null이 아닌지 확인
+        if (secretKeyPlain == null) {
+            throw new IllegalArgumentException("Secret key must not be null");
+        }
+
+        keyBase64Encoded = Encoders.BASE64.encode(secretKeyPlain.getBytes());
+        secretKey = Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
+    }
+
 
     public String createToken(User user) {
         return Jwts.builder()
@@ -28,12 +46,12 @@ public class TokenProvider {
                         .issuedAt(new Date())
                         .expiration(new Date(System.currentTimeMillis() + expirationS * 1000))
                         .and()
-                   .signWith(secretKey2,Jwts.SIG.HS512)
+                   .signWith(secretKey,Jwts.SIG.HS512)
                    .compact();
     }
 
     public String validateAndGetUserId(String token) {
-        Claims claims = Jwts.parser().decryptWith(secretKey2).build().parseSignedClaims(token).getPayload();
+        Claims claims = Jwts.parser().decryptWith(secretKey).build().parseSignedClaims(token).getPayload();
         return claims.getSubject();
     }
 }
