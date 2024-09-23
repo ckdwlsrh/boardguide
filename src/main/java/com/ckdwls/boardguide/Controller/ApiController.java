@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ckdwls.boardguide.Service.CrawlingBoardGame;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api")
@@ -17,6 +19,11 @@ public class ApiController {
     @RequestMapping(value = "/crawling", method = RequestMethod.GET)
     public void CrawlingTest() {
         CrawlingBoardGame.BoardLife();
+    }
+    
+    @RequestMapping(value = "/boardlist", method=RequestMethod.GET)
+    public String requestMethodName(@RequestParam String param) {
+        return new String();
     }
     
 }

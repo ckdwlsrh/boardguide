@@ -165,22 +165,8 @@ public class CrawlingBoardGame {
                 }
             }
 
+            webDriver.close();
             return themesList;
-
-
-            // Elements themes = body.select("div#game-main-content-box");
-            // log.info(themes.html());
-            // for(Element theme : themes) {
-            //     log.info(theme.select("div.title.flex").text().trim());
-            //     if(theme.select("div.title.flex").text().trim() == "테마") {
-            //         Elements genres = theme.select("div.credits-row");
-            //         for(Element genre: genres) {
-            //             boardGame.setGenre(genre.select("a").text());
-            //             boardGameRepository.save(boardGame);
-            //         }
-            //         break;
-            //     }
-            // }
         }
         catch(Exception e) {
             System.out.println(e);
