@@ -31,6 +31,9 @@ public class CrawlingBoardGame {
     @Value("${crawling.url}")
     private String rootUrl;
 
+    @Value("${crawling.images}")
+    private String serverImageUrl;
+
     @Autowired
     private BoardGameRepository boardGameRepository;
 
@@ -101,10 +104,10 @@ public class CrawlingBoardGame {
 
     private List<String> boardGameUrlList() {
         List<String> urlList = new ArrayList<>();
-        final int TOTALPAGES = 1;
+        final int TOTALPAGES = 5;
         try {
             // 페이지 별 제목 크롤링
-            for (int i = 1; i <= TOTALPAGES; i ++) {
+            for (int i = 2; i <= TOTALPAGES; i ++) {
                 Connection connection = Jsoup.connect(rootUrl + "rank.php?pg=" + Integer.toString(i));
                 Document document = connection.get();
                 Elements elements = document.select("div.grid-wrapper").select("div.game-rank-div-wrapper.no-border").select("a.storage-title-div.flex-1");
@@ -123,8 +126,7 @@ public class CrawlingBoardGame {
 
     
     private String downImage(String title, String url) {
-        String downLoadUrl = "/Users/kochangjin/Downloads/";
-        String imageAddress = downLoadUrl + title + ".jpg";
+        String imageAddress = serverImageUrl + title + ".jpg";
         log.info(imageAddress);
         try {
             Response response = Jsoup.connect(url).ignoreContentType(true).execute();
