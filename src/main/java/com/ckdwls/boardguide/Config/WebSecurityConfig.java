@@ -26,7 +26,7 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .httpBasic(httpBasic -> httpBasic.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST,"/auth/**").permitAll().requestMatchers(HttpMethod.GET,"/api/crawling").permitAll().anyRequest().authenticated())
+            .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST,"/auth/**").permitAll().requestMatchers(HttpMethod.GET,"/api/data/**").permitAll().requestMatchers(HttpMethod.GET,"/images/**").permitAll().requestMatchers(HttpMethod.GET,"/api/test").permitAll().anyRequest().authenticated())
             .addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
         return http.build();
     }

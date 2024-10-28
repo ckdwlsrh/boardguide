@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+import java.util.*;
 import com.ckdwls.boardguide.DTO.ResponseDTO;
 import com.ckdwls.boardguide.DTO.SigninRequest;
 import com.ckdwls.boardguide.DTO.SignupRequest;
 import com.ckdwls.boardguide.Entity.User;
 import com.ckdwls.boardguide.Service.TokenProvider;
 import com.ckdwls.boardguide.Service.UserService;
+
+import lombok.Value;
 
 
 @RestController
@@ -62,6 +66,10 @@ public class UserController {
                             .password(passwordEncoder.encode(param.getPassword()))
                             .nickname(param.getNickname())
                             .email(param.getEmail())
+                            .latitude(param.getLatitude())
+                            .longitude(param.getLongitude())
+                            .favoriteGenre(param.getFavoriteGenre())
+                            .address(param.getAddress())
                             .build();
 
             User registeduser = userService.Signup(user);
@@ -70,7 +78,14 @@ public class UserController {
                                                                 .userId(registeduser.getUserId())
                                                                 .nickname(registeduser.getNickname())
                                                                 .email(registeduser.getEmail())
+                                                                .latitude(registeduser.getLatitude())
+                                                                .longitude(registeduser.getLongitude())
+                                                                .address(registeduser.getAddress())
+                                                                .favoriteGenre(registeduser.getFavoriteGenre())
                                                                 .build();
+            //임시 프로필 이미지 생성
+            userService.copyProfileImage(registeduser.getNickname());
+
 
             return ResponseEntity.ok().body(responseSignupRequest);
         }

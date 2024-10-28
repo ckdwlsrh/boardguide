@@ -1,35 +1,43 @@
 package com.ckdwls.boardguide.Entity;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.*;
 
-@Entity
 @Builder
-@Setter
-@Getter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Data
+public class MatchingPosts {
+    
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
+    private String title;
+    
+    private String boardgame;
     private String userId;
-    private String password;
-    private String email;
+    private String imageAddress;
     private String nickname;
+    private int userNum;
+
+    @ElementCollection
+    private List<String> users;
+
+    private String limitUser;
+    private String limitDate;
     private String latitude;
     private String longitude;
     private String address;
-    private List<String> favoriteGenre;
+
 }

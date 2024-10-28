@@ -11,20 +11,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequest {
+public class MatchingPostsDTO {
+    private Long id;
     private String userId;
-
-    private String password;
-
+    private String boardgame;
+    private String title;
     private String nickname;
+    private int userNum;
+    private String address;
+    private String imageAddress;
+    private String limitUser;
 
-    private String email;
-
-
+    private String limitDate;
+    private List<String> users;
     private String latitude;
     private String longitude;
-
-    private String address;
-    
-    private List<String> favoriteGenre;
 }

@@ -54,7 +54,7 @@ public class CrawlingBoardGame {
 
                 Element firstElements = elements.select("div.info-main.flex-1").select("dl.info-row").first();
 
-                String rating = firstElements.select("div.main-play-rate-svg.me-2").text();
+                String rating = firstElements.select("dd.data.flex-div").text().replaceAll("\"", "");
                 log.info(rating);
                 String level = firstElements.nextElementSibling().select("span#game-weight").text();
                 log.info(level);
@@ -107,7 +107,7 @@ public class CrawlingBoardGame {
         final int TOTALPAGES = 5;
         try {
             // 페이지 별 제목 크롤링
-            for (int i = 2; i <= TOTALPAGES; i ++) {
+            for (int i = 1; i <= TOTALPAGES; i ++) {
                 Connection connection = Jsoup.connect(rootUrl + "rank.php?pg=" + Integer.toString(i));
                 Document document = connection.get();
                 Elements elements = document.select("div.grid-wrapper").select("div.game-rank-div-wrapper.no-border").select("a.storage-title-div.flex-1");

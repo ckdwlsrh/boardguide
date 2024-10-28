@@ -33,8 +33,8 @@ public class TokenProvider {
             throw new IllegalArgumentException("Secret key must not be null");
         }
 
-        keyBase64Encoded = Encoders.BASE64.encode(secretKeyPlain.getBytes());
-        secretKey = Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
+        //keyBase64Encoded = Encoders.BASE64.encode(secretKeyPlain.getBytes());
+        secretKey = Keys.hmacShaKeyFor(secretKeyPlain.getBytes());
     }
 
 
@@ -51,7 +51,8 @@ public class TokenProvider {
     }
 
     public String validateAndGetUserId(String token) {
-        Claims claims = Jwts.parser().decryptWith(secretKey).build().parseSignedClaims(token).getPayload();
+        Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+        System.out.println(claims.getSubject());
         return claims.getSubject();
     }
 }

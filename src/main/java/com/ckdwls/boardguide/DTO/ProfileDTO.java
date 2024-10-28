@@ -11,15 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequest {
+public class ProfileDTO {
     private String userId;
-
-    private String password;
 
     private String nickname;
 
     private String email;
-
 
     private String latitude;
     private String longitude;
